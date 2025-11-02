@@ -1,0 +1,690 @@
+/* Reset and Base */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Comic Sans MS', 'Marker Felt', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: linear-gradient(180deg, #FFEBE6 0%, #FFE4E1 50%, #E0F0F5 100%);
+    min-height: 100vh;
+    padding: 0;
+    overflow-x: hidden;
+}
+
+/* Canvas Container */
+.canvas {
+    position: relative;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 60px 40px;
+    background: transparent;
+}
+
+/* Header Sketch */
+.header-sketch {
+    text-align: center;
+    margin-bottom: 80px;
+    position: relative;
+    z-index: 10;
+}
+
+.header-logo {
+    font-size: 6rem;
+    margin-bottom: 20px;
+    display: inline-block;
+    animation: bounce 3s ease-in-out infinite;
+    filter: drop-shadow(0 4px 8px rgba(0,0,0,0.1));
+}
+
+@keyframes bounce {
+    0%, 100% {
+        transform: translateY(0) rotate(-5deg);
+    }
+    50% {
+        transform: translateY(-15px) rotate(5deg);
+    }
+}
+
+.main-sketch-title {
+    font-size: 3.5rem;
+    font-weight: bold;
+    color: #333;
+    text-shadow: 
+        2px 2px 0px rgba(255, 182, 193, 0.5),
+        4px 4px 0px rgba(255, 140, 0, 0.3);
+    transform: rotate(-2deg);
+    display: inline-block;
+    letter-spacing: -0.02em;
+}
+
+/* Team Section */
+.team-section {
+    text-align: center;
+    margin-bottom: 100px;
+    opacity: 0;
+    animation: fadeInUp 1.5s ease-out forwards;
+    position: relative;
+    z-index: 10;
+}
+
+.team-title {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 40px;
+    transform: rotate(1deg);
+    display: inline-block;
+}
+
+.team-members {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+    flex-wrap: wrap;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.team-member {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    padding: 20px;
+    background: white;
+    border: 3px solid #333;
+    border-radius: 20px;
+    min-width: 120px;
+    position: relative;
+    transform: rotate(0deg);
+    transition: all 0.3s ease;
+    box-shadow: 5px 5px 0 rgba(0,0,0,0.1);
+}
+
+.team-member:nth-child(1) {
+    transform: rotate(-3deg);
+}
+
+.team-member:nth-child(2) {
+    transform: rotate(2deg);
+}
+
+.team-member:nth-child(3) {
+    transform: rotate(-2deg);
+}
+
+.team-member:nth-child(4) {
+    transform: rotate(3deg);
+}
+
+.team-member:hover {
+    transform: rotate(0deg) scale(1.05) !important;
+    box-shadow: 8px 8px 0 rgba(0,0,0,0.15);
+}
+
+.member-avatar {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #FFE5E5 0%, #FFD6E8 100%);
+    border: 3px solid #333;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 3rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.member-avatar::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255,255,255,0.3), transparent);
+}
+
+.member-name {
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: #333;
+    text-shadow: 1px 1px 0 rgba(255, 182, 193, 0.3);
+}
+
+/* Journey Path SVG */
+.journey-path-container {
+    position: fixed;
+    top: 0;
+    left: 50%;
+    width: 100%;
+    max-width: 1400px;
+    height: 100vh;
+    pointer-events: none;
+    z-index: 1;
+    transform: translateX(-50%);
+}
+
+.journey-path {
+    width: 100%;
+    height: 100%;
+    opacity: 0.6;
+}
+
+.path-icon {
+    font-size: 30px;
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+}
+
+.path-line {
+    stroke-dasharray: 1000;
+    stroke-dashoffset: 1000;
+    animation: drawPath 8s ease-out forwards;
+}
+
+@keyframes drawPath {
+    to {
+        stroke-dashoffset: 0;
+    }
+}
+
+/* Stage Container */
+.stage {
+    position: relative;
+    margin-bottom: 150px;
+    opacity: 0;
+    transform: translateY(50px);
+    transition: all 1s ease-out;
+    z-index: 10;
+}
+
+.stage.active {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.stage-content {
+    max-width: 800px;
+    margin: 0 auto;
+    position: relative;
+}
+
+/* Stage Logo */
+.stage-logo {
+    font-size: 4rem;
+    position: absolute;
+    right: -100px;
+    top: 20px;
+    transform: rotate(15deg);
+    z-index: 5;
+    animation: wiggle 4s ease-in-out infinite;
+    filter: drop-shadow(0 4px 8px rgba(0,0,0,0.15));
+}
+
+@keyframes wiggle {
+    0%, 100% {
+        transform: rotate(15deg) translateY(0);
+    }
+    25% {
+        transform: rotate(20deg) translateY(-5px);
+    }
+    75% {
+        transform: rotate(10deg) translateY(5px);
+    }
+}
+
+/* Stage Number & Title */
+.stage-number-sketch {
+    font-size: 5rem;
+    font-weight: 900;
+    color: rgba(255, 105, 180, 0.3);
+    position: absolute;
+    left: -80px;
+    top: -20px;
+    transform: rotate(-15deg);
+    z-index: -1;
+}
+
+.stage-title-sketch {
+    font-size: 2.2rem;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 30px;
+    text-shadow: 
+        1px 1px 0px rgba(255, 182, 193, 0.4),
+        3px 3px 0px rgba(255, 140, 0, 0.2);
+    transform: rotate(-1deg);
+    position: relative;
+    display: inline-block;
+}
+
+/* Sketch Box */
+.sketch-box {
+    background: white;
+    border: 4px solid #333;
+    border-radius: 20px;
+    padding: 40px;
+    position: relative;
+    box-shadow: 
+        8px 8px 0 rgba(0,0,0,0.1),
+        0 0 0 2px white,
+        0 0 0 4px #333;
+    transform: rotate(0.5deg);
+}
+
+.sketch-box::before {
+    content: '';
+    position: absolute;
+    top: -20px;
+    left: -20px;
+    right: -20px;
+    bottom: -20px;
+    background: transparent;
+    border: 3px dashed rgba(255, 182, 193, 0.3);
+    border-radius: 25px;
+    z-index: -1;
+}
+
+/* Warm Background Colors */
+.warm-1 {
+    background: linear-gradient(135deg, #FFE5E5 0%, #FFD6E8 100%);
+}
+
+.warm-2 {
+    background: linear-gradient(135deg, #FFE4B5 0%, #FFD2B5 100%);
+}
+
+.warm-3 {
+    background: linear-gradient(135deg, #FFA5A5 0%, #FFB8D8 100%);
+}
+
+.warm-4 {
+    background: linear-gradient(135deg, #E0F5FF 0%, #A8E6CF 100%);
+}
+
+.warm-5 {
+    background: linear-gradient(135deg, #E0F8FF 0%, #87CEEB 100%);
+}
+
+/* Sketch Text */
+.sketch-text {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: #444;
+    margin-bottom: 30px;
+    position: relative;
+    padding-left: 15px;
+    border-left: 3px solid #FFB6C1;
+}
+
+/* Visual Sketch */
+.visual-sketch {
+    text-align: center;
+    margin: 30px 0;
+}
+
+.sketch-illustration {
+    width: 100%;
+    max-width: 250px;
+    height: auto;
+    filter: drop-shadow(0 4px 8px rgba(0,0,0,0.1));
+}
+
+.visual-sketch svg {
+    transform: rotate(-1deg);
+    transition: transform 0.3s ease;
+}
+
+.visual-sketch:hover svg {
+    transform: rotate(1deg) scale(1.05);
+}
+
+/* Keyword Bubbles */
+.keyword-bubbles {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin-top: 20px;
+}
+
+.bubble {
+    padding: 10px 20px;
+    background: white;
+    border: 3px solid #333;
+    border-radius: 25px;
+    font-weight: bold;
+    font-size: 0.9rem;
+    color: #333;
+    position: relative;
+    transform: rotate(0deg);
+    transition: all 0.3s ease;
+    box-shadow: 3px 3px 0 rgba(0,0,0,0.1);
+}
+
+.bubble:hover {
+    transform: rotate(-3deg) scale(1.1);
+    box-shadow: 5px 5px 0 rgba(0,0,0,0.2);
+}
+
+.bubble-1 {
+    background: #FFE5E5;
+    transform: rotate(-5deg);
+}
+
+.bubble-2 {
+    background: #FFE4B5;
+    transform: rotate(3deg);
+}
+
+.bubble-3 {
+    background: #E0F5FF;
+    transform: rotate(-2deg);
+}
+
+.bubble-4 {
+    background: #FFB6C1;
+    transform: rotate(2deg);
+}
+
+.bubble-5 {
+    background: #B8A9E8;
+    transform: rotate(-3deg);
+}
+
+/* Ending Frame */
+.ending-frame {
+    text-align: center;
+    position: relative;
+    margin-top: 100px;
+    opacity: 0;
+    animation: fadeInUp 2s ease-out forwards;
+    z-index: 10;
+}
+
+.final-sketch-box {
+    background: linear-gradient(135deg, #F0E8FF 0%, #E0F5FF 100%);
+    border: 4px solid #333;
+    border-radius: 20px;
+    padding: 60px 40px;
+    max-width: 900px;
+    margin: 0 auto;
+    position: relative;
+    box-shadow: 
+        8px 8px 0 rgba(0,0,0,0.1),
+        0 0 0 2px white,
+        0 0 0 4px #333;
+    transform: rotate(-0.5deg);
+}
+
+.final-message {
+    font-size: 1.4rem;
+    font-style: italic;
+    color: #333;
+    line-height: 1.8;
+    margin-bottom: 30px;
+    position: relative;
+}
+
+.final-icon {
+    font-size: 4rem;
+    animation: sparkle 2s ease-in-out infinite;
+    transform: rotate(-5deg);
+}
+
+@keyframes sparkle {
+    0%, 100% {
+        opacity: 0.7;
+        transform: rotate(-5deg) scale(1);
+    }
+    50% {
+        opacity: 1;
+        transform: rotate(5deg) scale(1.2);
+    }
+}
+
+/* Animations */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+/* Random rotations for hand-drawn feel */
+.stage-1 .sketch-box {
+    animation: float 4s ease-in-out infinite;
+}
+
+.stage-2 .sketch-box {
+    animation: float 4s ease-in-out infinite 0.5s;
+}
+
+.stage-3 .sketch-box {
+    animation: float 4s ease-in-out infinite 1s;
+}
+
+.stage-4 .sketch-box {
+    animation: float 4s ease-in-out infinite 1.5s;
+}
+
+.stage-5 .sketch-box {
+    animation: float 4s ease-in-out infinite 2s;
+}
+
+/* Mouse sparkles (added via JS) */
+.mouse-spark {
+    position: fixed;
+    width: 4px;
+    height: 4px;
+    background: radial-gradient(circle, #FF69B4, transparent);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9999;
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+    .stage-number-sketch {
+        left: -60px;
+        font-size: 4rem;
+    }
+    
+    .stage-logo {
+        right: -80px;
+        font-size: 3rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .canvas {
+        padding: 40px 20px;
+    }
+    
+    .header-logo {
+        font-size: 4rem;
+    }
+
+    .team-title {
+        font-size: 1.5rem;
+    }
+    
+    .team-members {
+        gap: 20px;
+    }
+    
+    .team-member {
+        min-width: 100px;
+        padding: 15px;
+    }
+    
+    .member-avatar {
+        width: 60px;
+        height: 60px;
+        font-size: 2rem;
+    }
+    
+    .member-name {
+        font-size: 0.9rem;
+    }
+
+    .main-sketch-title {
+        font-size: 2.5rem;
+    }
+
+    .stage-number-sketch {
+        position: relative;
+        left: 0;
+        font-size: 3rem;
+        margin-bottom: -20px;
+    }
+    
+    .stage-logo {
+        position: relative;
+        right: 0;
+        display: inline-block;
+        font-size: 3rem;
+        margin-left: 20px;
+        margin-bottom: 10px;
+    }
+
+    .sketch-box {
+        padding: 30px 20px;
+    }
+
+    .stage-title-sketch {
+        font-size: 1.8rem;
+    }
+
+    .sketch-text {
+        font-size: 1rem;
+    }
+
+    .final-message {
+        font-size: 1.2rem;
+    }
+
+    .keyword-bubbles {
+        gap: 10px;
+    }
+
+    .bubble {
+        padding: 8px 16px;
+        font-size: 0.8rem;
+    }
+
+    .journey-path-container {
+        opacity: 0.3;
+    }
+}
+
+@media (max-width: 480px) {
+    .header-logo {
+        font-size: 3rem;
+    }
+    
+    .team-title {
+        font-size: 1.2rem;
+    }
+    
+    .team-members {
+        gap: 15px;
+    }
+    
+    .team-member {
+        min-width: 80px;
+        padding: 10px;
+    }
+    
+    .member-avatar {
+        width: 50px;
+        height: 50px;
+        font-size: 1.5rem;
+    }
+    
+    .member-name {
+        font-size: 0.8rem;
+    }
+
+    .main-sketch-title {
+        font-size: 2rem;
+    }
+    
+    .stage-logo {
+        font-size: 2.5rem;
+        margin-left: 10px;
+    }
+
+    .stage-title-sketch {
+        font-size: 1.5rem;
+    }
+
+    .sketch-box {
+        padding: 20px 15px;
+        border-width: 3px;
+    }
+
+    .final-sketch-box {
+        padding: 40px 20px;
+    }
+
+    .final-icon {
+        font-size: 3rem;
+    }
+}
+
+/* Fun details */
+.sketch-box::after {
+    content: '✏️';
+    position: absolute;
+    top: -15px;
+    right: -15px;
+    font-size: 2rem;
+    transform: rotate(20deg);
+    filter: drop-shadow(2px 2px 0 rgba(0,0,0,0.1));
+    animation: rotate 3s ease-in-out infinite;
+}
+
+@keyframes rotate {
+    0%, 100% {
+        transform: rotate(20deg);
+    }
+    50% {
+        transform: rotate(-20deg);
+    }
+}
+
+/* Scrollbar Styling */
+::-webkit-scrollbar {
+    width: 12px;
+}
+
+::-webkit-scrollbar-track {
+    background: #FFE4E1;
+}
+
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, #FFB6C1, #87CEEB);
+    border-radius: 6px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(180deg, #FF69B4, #4682B4);
+}
