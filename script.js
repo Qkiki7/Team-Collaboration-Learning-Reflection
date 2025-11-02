@@ -85,7 +85,11 @@ document.addEventListener('DOMContentLoaded', function() {
         
         bubbles.forEach((bubble, index) => {
             const speed = 0.1 + (index % 3) * 0.05;
-            bubble.style.transform += ` translateY(${scrollY * speed}px)`;
+            // Store original transform in data attribute
+            if (!bubble.dataset.originalTransform) {
+                bubble.dataset.originalTransform = bubble.style.transform || '';
+            }
+            bubble.style.transform = `${bubble.dataset.originalTransform} translateY(${scrollY * speed}px)`;
         });
     });
 
