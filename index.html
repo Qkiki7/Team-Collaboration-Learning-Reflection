@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SYNAPSE - Sketchnote Journey</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="canvas">
+        <!-- 大标题 -->
+        <div class="header-sketch">
+            <h1 class="main-sketch-title">SYNAPSE<br>Collaboration Journey</h1>
+        </div>
+
+        <!-- 团队成员展示 -->
+        <div class="team-section">
+            <h2 class="team-title">Our Team</h2>
+            <div class="team-members">
+                <div class="team-member">
+                    <div class="member-avatar">👤</div>
+                    <div class="member-name">成员1</div>
+                </div>
+                <div class="team-member">
+                    <div class="member-avatar">👤</div>
+                    <div class="member-name">成员2</div>
+                </div>
+                <div class="team-member">
+                    <div class="member-avatar">👤</div>
+                    <div class="member-name">成员3</div>
+                </div>
+                <div class="team-member">
+                    <div class="member-avatar">👤</div>
+                    <div class="member-name">成员4</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 画布路径容器 -->
+        <div class="journey-path-container">
+            <svg class="journey-path" viewBox="0 0 1200 5000">
+                <!-- 渐变路径定义 -->
+                <defs>
+                    <linearGradient id="pathGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                        <stop offset="0%" style="stop-color:#FFD6E8;stop-opacity:1" />
+                        <stop offset="20%" style="stop-color:#FFE4B5;stop-opacity:1" />
+                        <stop offset="40%" style="stop-color:#FFA5A5;stop-opacity:1" />
+                        <stop offset="60%" style="stop-color:#B8A9E8;stop-opacity:1" />
+                        <stop offset="80%" style="stop-color:#A8E6CF;stop-opacity:1" />
+                        <stop offset="100%" style="stop-color:#87CEEB;stop-opacity:1" />
+                    </linearGradient>
+                    <filter id="glow">
+                        <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+                        <feMerge>
+                            <feMergeNode in="coloredBlur"/>
+                            <feMergeNode in="SourceGraphic"/>
+                        </feMerge>
+                    </filter>
+                </defs>
+                
+                <!-- 主路径线 -->
+                <path class="path-line" d="M 600 100 Q 200 600 600 900 Q 1000 1200 600 1700 Q 200 2200 600 2800 Q 1000 3400 600 4000" 
+                      stroke="url(#pathGradient)" stroke-width="8" fill="none"/>
+                
+                <!-- 路径上的图标标记 -->
+                <circle cx="600" cy="200" r="25" fill="#FF69B4" filter="url(#glow)">
+                    <animate attributeName="r" values="25;30;25" dur="2s" repeatCount="indefinite"/>
+                </circle>
+                <text x="600" y="260" text-anchor="middle" class="path-icon">🔥</text>
+                
+                <circle cx="600" cy="700" r="25" fill="#FF8C00" filter="url(#glow)">
+                    <animate attributeName="r" values="25;30;25" dur="2s" begin="0.5s" repeatCount="indefinite"/>
+                </circle>
+                <text x="600" y="760" text-anchor="middle" class="path-icon">⚙️</text>
+                
+                <circle cx="600" cy="1500" r="25" fill="#FF6B6B" filter="url(#glow)">
+                    <animate attributeName="r" values="25;30;25" dur="2s" begin="1s" repeatCount="indefinite"/>
+                </circle>
+                <text x="600" y="1560" text-anchor="middle" class="path-icon">🎲</text>
+                
+                <circle cx="600" cy="2400" r="25" fill="#9370DB" filter="url(#glow)">
+                    <animate attributeName="r" values="25;30;25" dur="2s" begin="1.5s" repeatCount="indefinite"/>
+                </circle>
+                <text x="600" y="2460" text-anchor="middle" class="path-icon">💞</text>
+                
+                <circle cx="600" cy="3600" r="25" fill="#87CEEB" filter="url(#glow)">
+                    <animate attributeName="r" values="25;30;25" dur="2s" begin="2s" repeatCount="indefinite"/>
+                </circle>
+                <text x="600" y="3660" text-anchor="middle" class="path-icon">🌟</text>
+            </svg>
+        </div>
+
+        <!-- Phase 1: Managing Passion -->
+        <section class="stage stage-1" data-stage="1">
+            <div class="stage-content">
+                <div class="stage-number-sketch">01</div>
+                <div class="stage-title-sketch">Managing Passion</div>
+                
+                <div class="sketch-box warm-1">
+                    <div class="sketch-text">
+                        Our collaboration began not with a lack of passion, but with the complex challenge of managing it.
+                        <br><br>
+                        We learned that shared ambition requires balance, mutual understanding, and coordination.
+                    </div>
+                    
+                    <div class="visual-sketch">
+                        <!-- SVG Spark Balance Illustration -->
+                        <svg viewBox="0 0 200 150" class="sketch-illustration">
+                            <!-- Flame -->
+                            <path d="M 100 100 L 85 70 Q 90 60 100 65 Q 110 60 115 70 Z" 
+                                  fill="#FF6B6B" opacity="0.8"/>
+                            <path d="M 100 95 L 90 75 Q 95 65 100 68 Q 105 65 110 75 Z" 
+                                  fill="#FFD700" opacity="0.9"/>
+                            <!-- Balance scales -->
+                            <ellipse cx="100" cy="110" rx="40" ry="4" fill="#FF8C00" opacity="0.5"/>
+                            <circle cx="100" cy="110" r="3" fill="#333"/>
+                            <line x1="70" y1="110" x2="70" y2="120" stroke="#333" stroke-width="2" stroke-linecap="round"/>
+                            <line x1="130" y1="110" x2="130" y2="120" stroke="#333" stroke-width="2" stroke-linecap="round"/>
+                            <circle cx="70" cy="125" r="8" fill="#FFB6C1" opacity="0.7"/>
+                            <circle cx="130" cy="125" r="8" fill="#B8A9E8" opacity="0.7"/>
+                        </svg>
+                    </div>
+                    
+                    <div class="keyword-bubbles">
+                        <span class="bubble bubble-1">Passion</span>
+                        <span class="bubble bubble-2">Ambition</span>
+                        <span class="bubble bubble-3">Balance</span>
+                        <span class="bubble bubble-4">Understanding</span>
+                        <span class="bubble bubble-5">Coordination</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Phase 2: Friction & Growth -->
+        <section class="stage stage-2" data-stage="2">
+            <div class="stage-content">
+                <div class="stage-number-sketch">02</div>
+                <div class="stage-title-sketch">Friction & Growth</div>
+                
+                <div class="sketch-box warm-2">
+                    <div class="sketch-text">
+                        Our initial friction came directly from perfectionism — we were all trying to "do it all" perfectly, until we reached our limits.
+                        <br><br>
+                        This tension became the catalyst for reflection and realignment.
+                    </div>
+                    
+                    <div class="visual-sketch">
+                        <!-- SVG Gear Sparks Illustration -->
+                        <svg viewBox="0 0 200 150" class="sketch-illustration">
+                            <!-- Central gear -->
+                            <circle cx="100" cy="75" r="25" fill="#FFA5A5" stroke="#FF6B6B" stroke-width="3"/>
+                            <circle cx="100" cy="75" r="8" fill="#FF6B6B"/>
+                            <!-- Gear teeth -->
+                            <rect x="95" y="50" width="10" height="15" fill="#FFA5A5"/>
+                            <rect x="95" y="110" width="10" height="15" fill="#FFA5A5"/>
+                            <rect x="50" y="70" width="15" height="10" fill="#FFA5A5"/>
+                            <rect x="135" y="70" width="15" height="10" fill="#FFA5A5"/>
+                            <!-- Sparks -->
+                            <path d="M 100 50 L 98 40 L 102 40" stroke="#FFD700" stroke-width="2" fill="none"/>
+                            <path d="M 100 100 L 98 110 L 102 110" stroke="#FFD700" stroke-width="2" fill="none"/>
+                            <path d="M 130 75 L 140 73 L 140 77" stroke="#FFD700" stroke-width="2" fill="none"/>
+                            <path d="M 70 75 L 60 73 L 60 77" stroke="#FFD700" stroke-width="2" fill="none"/>
+                            <!-- Reflection icon -->
+                            <circle cx="100" cy="120" r="12" fill="#FFE4B5" stroke="#FF8C00" stroke-width="2"/>
+                            <path d="M 100 115 L 100 108 M 100 125 L 100 132 M 92 120 L 88 120 M 108 120 L 112 120" 
+                                  stroke="#FF8C00" stroke-width="2" stroke-linecap="round"/>
+                        </svg>
+                    </div>
+                    
+                    <div class="keyword-bubbles">
+                        <span class="bubble bubble-1">Perfectionism</span>
+                        <span class="bubble bubble-2">Pressure</span>
+                        <span class="bubble bubble-3">Friction</span>
+                        <span class="bubble bubble-4">Reflection</span>
+                        <span class="bubble bubble-5">Realignment</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Phase 3: Pivot & Gamble -->
+        <section class="stage stage-3" data-stage="3">
+            <div class="stage-content">
+                <div class="stage-number-sketch">03</div>
+                <div class="stage-title-sketch">Pivot & Gamble</div>
+                
+                <div class="sketch-box warm-3">
+                    <div class="sketch-text">
+                        A critical external review invalidated our safe path and forced us to confront that our workflow was misaligned with the ambition of our SYNAPSE concept.
+                        <br><br>
+                        It was not just a pivot, but a conscious gamble to rebuild from uncertainty.
+                    </div>
+                    
+                    <div class="visual-sketch">
+                        <!-- SVG Safety to Uncertainty Illustration -->
+                        <svg viewBox="0 0 200 150" class="sketch-illustration">
+                            <!-- Safe path -->
+                            <rect x="30" y="70" width="60" height="15" rx="5" fill="#FFD6E8" stroke="#FF69B4" stroke-width="2"/>
+                            <text x="60" y="82" text-anchor="middle" font-size="10" fill="#FF69B4">SAFE</text>
+                            <!-- Transition arrow -->
+                            <path d="M 100 77 L 120 77 L 115 72 M 120 77 L 115 82" 
+                                  stroke="#9370DB" stroke-width="3" fill="none" stroke-linecap="round"/>
+                            <!-- Uncertainty clouds -->
+                            <ellipse cx="150" cy="65" rx="15" ry="8" fill="#B8A9E8" opacity="0.6"/>
+                            <ellipse cx="160" cy="75" rx="15" ry="8" fill="#B8A9E8" opacity="0.6"/>
+                            <ellipse cx="145" cy="80" rx="12" ry="8" fill="#B8A9E8" opacity="0.6"/>
+                            <text x="152" y="77" text-anchor="middle" font-size="8" fill="#9370DB">?</text>
+                            <!-- Dice (gamble) -->
+                            <rect x="135" y="105" width="30" height="30" rx="3" fill="#FFE4B5" stroke="#FF8C00" stroke-width="3"/>
+                            <circle cx="145" cy="115" r="2" fill="#FF8C00"/>
+                            <circle cx="155" cy="115" r="2" fill="#FF8C00"/>
+                            <circle cx="145" cy="125" r="2" fill="#FF8C00"/>
+                            <circle cx="155" cy="125" r="2" fill="#FF8C00"/>
+                            <circle cx="150" cy="135" r="2" fill="#FF8C00"/>
+                        </svg>
+                    </div>
+                    
+                    <div class="keyword-bubbles">
+                        <span class="bubble bubble-1">Review</span>
+                        <span class="bubble bubble-2">Misalignment</span>
+                        <span class="bubble bubble-3">Risk-taking</span>
+                        <span class="bubble bubble-4">Courage</span>
+                        <span class="bubble bubble-5">SYNAPSE Vision</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Phase 4: Human Breakthrough -->
+        <section class="stage stage-4" data-stage="4">
+            <div class="stage-content">
+                <div class="stage-number-sketch">04</div>
+                <div class="stage-title-sketch">Human Breakthrough</div>
+                
+                <div class="sketch-box warm-4">
+                    <div class="sketch-text">
+                        The real breakthrough wasn't technical — it was human.
+                        <br><br>
+                        By pausing to reconnect as people and rebuilding psychological safety, we rediscovered trust as the foundation of creativity.
+                    </div>
+                    
+                    <div class="visual-sketch">
+                        <!-- SVG Reconnection Spark Renewal Illustration -->
+                        <svg viewBox="0 0 200 150" class="sketch-illustration">
+                            <!-- Hearts -->
+                            <path d="M 70 80 C 70 70, 60 65, 60 70 C 60 65, 50 70, 50 80 C 50 90, 60 100, 70 110 C 80 100, 90 90, 90 80 C 90 70, 80 65, 80 70 C 80 65, 70 70, 70 80 Z" 
+                                  fill="#FFB6C1" stroke="#FF69B4" stroke-width="2"/>
+                            <path d="M 130 80 C 130 70, 120 65, 120 70 C 120 65, 110 70, 110 80 C 110 90, 120 100, 130 110 C 140 100, 150 90, 150 80 C 150 70, 140 65, 140 70 C 140 65, 130 70, 130 80 Z" 
+                                  fill="#87CEEB" stroke="#4682B4" stroke-width="2"/>
+                            <!-- Connection -->
+                            <line x1="90" y1="85" x2="110" y2="85" stroke="#9370DB" stroke-width="3" stroke-dasharray="3,2"/>
+                            <!-- Sparks -->
+                            <path d="M 100 75 L 98 65 L 102 65" stroke="#FFD700" stroke-width="2"/>
+                            <path d="M 100 95 L 98 105 L 102 105" stroke="#FFD700" stroke-width="2"/>
+                            <path d="M 115 75 L 125 73 L 125 77" stroke="#FFD700" stroke-width="2"/>
+                            <path d="M 85 75 L 75 73 L 75 77" stroke="#FFD700" stroke-width="2"/>
+                        </svg>
+                    </div>
+                    
+                    <div class="keyword-bubbles">
+                        <span class="bubble bubble-1">Connection</span>
+                        <span class="bubble bubble-2">Trust</span>
+                        <span class="bubble bubble-3">Safety</span>
+                        <span class="bubble bubble-4">Humanity</span>
+                        <span class="bubble bubble-5">Creativity</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Phase 5: Trust as Superpower -->
+        <section class="stage stage-5" data-stage="5">
+            <div class="stage-content">
+                <div class="stage-number-sketch">05</div>
+                <div class="stage-title-sketch">Trust as Superpower</div>
+                
+                <div class="sketch-box warm-5">
+                    <div class="sketch-text">
+                        We learned that a team's true superpower isn't its best skill, but the trust that allows members to empower and be empowered by one another.
+                        <br><br>
+                        Every artefact we produced became a tangible result of that trust.
+                    </div>
+                    
+                    <div class="visual-sketch">
+                        <!-- SVG Trust Radiates to Creation Illustration -->
+                        <svg viewBox="0 0 200 150" class="sketch-illustration">
+                            <!-- Central Trust Star -->
+                            <path d="M 100 65 L 108 82 L 126 82 L 112 93 L 118 110 L 100 100 L 82 110 L 88 93 L 74 82 L 92 82 Z" 
+                                  fill="#FFD700" stroke="#FFA500" stroke-width="2">
+                                <animate attributeName="fill-opacity" values="0.7;1;0.7" dur="2s" repeatCount="indefinite"/>
+                            </path>
+                            <!-- Radiating rays -->
+                            <line x1="100" y1="45" x2="100" y2="55" stroke="#87CEEB" stroke-width="3" stroke-linecap="round"/>
+                            <line x1="155" y1="77" x2="150" y2="82" stroke="#87CEEB" stroke-width="2" stroke-linecap="round"/>
+                            <line x1="155" y1="107" x2="150" y2="102" stroke="#87CEEB" stroke-width="2" stroke-linecap="round"/>
+                            <line x1="100" y1="125" x2="100" y2="135" stroke="#87CEEB" stroke-width="3" stroke-linecap="round"/>
+                            <line x1="45" y1="107" x2="50" y2="102" stroke="#87CEEB" stroke-width="2" stroke-linecap="round"/>
+                            <line x1="45" y1="77" x2="50" y2="82" stroke="#87CEEB" stroke-width="2" stroke-linecap="round"/>
+                            <!-- Artefact icons -->
+                            <circle cx="100" cy="30" r="8" fill="#A8E6CF"/>
+                            <circle cx="165" cy="90" r="8" fill="#B8A9E8"/>
+                            <circle cx="165" cy="100" r="8" fill="#FFB6C1"/>
+                            <circle cx="100" cy="145" r="8" fill="#FFE4B5"/>
+                            <circle cx="35" cy="100" r="8" fill="#FFE4B5"/>
+                            <circle cx="35" cy="90" r="8" fill="#B8A9E8"/>
+                        </svg>
+                    </div>
+                    
+                    <div class="keyword-bubbles">
+                        <span class="bubble bubble-1">Trust</span>
+                        <span class="bubble bubble-2">Empowerment</span>
+                        <span class="bubble bubble-3">Collaboration</span>
+                        <span class="bubble bubble-4">Growth</span>
+                        <span class="bubble bubble-5">Outcome</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Ending Frame -->
+        <section class="ending-frame">
+            <div class="final-sketch-box">
+                <div class="final-message">
+                    "Every artefact we produced became a tangible result of that trust."
+                </div>
+                <div class="final-icon">✨</div>
+            </div>
+        </section>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
