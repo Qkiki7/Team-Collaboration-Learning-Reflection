@@ -1,0 +1,1204 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SYNAPSE - Sketchnote Journey</title>
+    <style>
+/* Reset and Base */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Comic Sans MS', 'Marker Felt', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: linear-gradient(180deg, #FFEBE6 0%, #FFE4E1 50%, #E0F0F5 100%);
+    min-height: 100vh;
+    padding: 0;
+    overflow-x: hidden;
+}
+
+/* Canvas Container */
+.canvas {
+    position: relative;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 60px 40px;
+    background: transparent;
+}
+
+/* Header Sketch */
+.header-sketch {
+    text-align: center;
+    margin-bottom: 80px;
+    position: relative;
+    z-index: 10;
+}
+
+.header-logo {
+    font-size: 6rem;
+    margin-bottom: 20px;
+    display: inline-block;
+    animation: bounce 3s ease-in-out infinite;
+    filter: drop-shadow(0 4px 8px rgba(0,0,0,0.1));
+}
+
+@keyframes bounce {
+    0%, 100% {
+        transform: translateY(0) rotate(-5deg);
+    }
+    50% {
+        transform: translateY(-15px) rotate(5deg);
+    }
+}
+
+.main-sketch-title {
+    font-size: 3.5rem;
+    font-weight: bold;
+    color: #333;
+    text-shadow: 
+        2px 2px 0px rgba(255, 182, 193, 0.5),
+        4px 4px 0px rgba(255, 140, 0, 0.3);
+    transform: rotate(-2deg);
+    display: inline-block;
+    letter-spacing: -0.02em;
+}
+
+/* Team Section */
+.team-section {
+    text-align: center;
+    margin-bottom: 100px;
+    opacity: 0;
+    animation: fadeInUp 1.5s ease-out forwards;
+    position: relative;
+    z-index: 10;
+}
+
+.team-title {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 40px;
+    transform: rotate(1deg);
+    display: inline-block;
+}
+
+.team-members {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+    flex-wrap: wrap;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.team-member {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    padding: 20px;
+    background: white;
+    border: 3px solid #333;
+    border-radius: 20px;
+    min-width: 120px;
+    position: relative;
+    transform: rotate(0deg);
+    transition: all 0.3s ease;
+    box-shadow: 5px 5px 0 rgba(0,0,0,0.1);
+}
+
+.team-member:nth-child(1) {
+    transform: rotate(-3deg);
+}
+
+.team-member:nth-child(2) {
+    transform: rotate(2deg);
+}
+
+.team-member:nth-child(3) {
+    transform: rotate(-2deg);
+}
+
+.team-member:nth-child(4) {
+    transform: rotate(3deg);
+}
+
+.team-member:hover {
+    transform: rotate(0deg) scale(1.05) !important;
+    box-shadow: 8px 8px 0 rgba(0,0,0,0.15);
+}
+
+.member-avatar {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #FFE5E5 0%, #FFD6E8 100%);
+    border: 3px solid #333;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 3rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.member-avatar::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255,255,255,0.3), transparent);
+}
+
+.member-name {
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: #333;
+    text-shadow: 1px 1px 0 rgba(255, 182, 193, 0.3);
+}
+
+/* Journey Path SVG */
+.journey-path-container {
+    position: fixed;
+    top: 0;
+    left: 50%;
+    width: 100%;
+    max-width: 1400px;
+    height: 100vh;
+    pointer-events: none;
+    z-index: 1;
+    transform: translateX(-50%);
+}
+
+.journey-path {
+    width: 100%;
+    height: 100%;
+    opacity: 0.6;
+}
+
+.path-icon {
+    font-size: 30px;
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+}
+
+.path-line {
+    stroke-dasharray: 1000;
+    stroke-dashoffset: 1000;
+    animation: drawPath 8s ease-out forwards;
+}
+
+@keyframes drawPath {
+    to {
+        stroke-dashoffset: 0;
+    }
+}
+
+/* Stage Container */
+.stage {
+    position: relative;
+    margin-bottom: 150px;
+    opacity: 0;
+    transform: translateY(50px);
+    transition: all 1s ease-out;
+    z-index: 10;
+}
+
+.stage.active {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.stage-content {
+    max-width: 800px;
+    margin: 0 auto;
+    position: relative;
+}
+
+/* Stage Logo */
+.stage-logo {
+    font-size: 4rem;
+    position: absolute;
+    right: -100px;
+    top: 20px;
+    transform: rotate(15deg);
+    z-index: 5;
+    animation: wiggle 4s ease-in-out infinite;
+    filter: drop-shadow(0 4px 8px rgba(0,0,0,0.15));
+}
+
+@keyframes wiggle {
+    0%, 100% {
+        transform: rotate(15deg) translateY(0);
+    }
+    25% {
+        transform: rotate(20deg) translateY(-5px);
+    }
+    75% {
+        transform: rotate(10deg) translateY(5px);
+    }
+}
+
+/* Stage Number & Title */
+.stage-number-sketch {
+    font-size: 5rem;
+    font-weight: 900;
+    color: rgba(255, 105, 180, 0.3);
+    position: absolute;
+    left: -80px;
+    top: -20px;
+    transform: rotate(-15deg);
+    z-index: -1;
+}
+
+.stage-title-sketch {
+    font-size: 2.2rem;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 30px;
+    text-shadow: 
+        1px 1px 0px rgba(255, 182, 193, 0.4),
+        3px 3px 0px rgba(255, 140, 0, 0.2);
+    transform: rotate(-1deg);
+    position: relative;
+    display: inline-block;
+}
+
+/* Sketch Box */
+.sketch-box {
+    background: white;
+    border: 4px solid #333;
+    border-radius: 20px;
+    padding: 40px;
+    position: relative;
+    box-shadow: 
+        8px 8px 0 rgba(0,0,0,0.1),
+        0 0 0 2px white,
+        0 0 0 4px #333;
+    transform: rotate(0.5deg);
+}
+
+.sketch-box::before {
+    content: '';
+    position: absolute;
+    top: -20px;
+    left: -20px;
+    right: -20px;
+    bottom: -20px;
+    background: transparent;
+    border: 3px dashed rgba(255, 182, 193, 0.3);
+    border-radius: 25px;
+    z-index: -1;
+}
+
+/* Warm Background Colors */
+.warm-1 {
+    background: linear-gradient(135deg, #FFE5E5 0%, #FFD6E8 100%);
+}
+
+.warm-2 {
+    background: linear-gradient(135deg, #FFE4B5 0%, #FFD2B5 100%);
+}
+
+.warm-3 {
+    background: linear-gradient(135deg, #FFA5A5 0%, #FFB8D8 100%);
+}
+
+.warm-4 {
+    background: linear-gradient(135deg, #E0F5FF 0%, #A8E6CF 100%);
+}
+
+.warm-5 {
+    background: linear-gradient(135deg, #E0F8FF 0%, #87CEEB 100%);
+}
+
+/* Sketch Text */
+.sketch-text {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: #444;
+    margin-bottom: 30px;
+    position: relative;
+    padding-left: 15px;
+    border-left: 3px solid #FFB6C1;
+}
+
+/* Visual Sketch */
+.visual-sketch {
+    text-align: center;
+    margin: 30px 0;
+}
+
+.sketch-illustration {
+    width: 100%;
+    max-width: 250px;
+    height: auto;
+    filter: drop-shadow(0 4px 8px rgba(0,0,0,0.1));
+}
+
+.visual-sketch svg {
+    transform: rotate(-1deg);
+    transition: transform 0.3s ease;
+}
+
+.visual-sketch:hover svg {
+    transform: rotate(1deg) scale(1.05);
+}
+
+/* Keyword Bubbles */
+.keyword-bubbles {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin-top: 20px;
+}
+
+.bubble {
+    padding: 10px 20px;
+    background: white;
+    border: 3px solid #333;
+    border-radius: 25px;
+    font-weight: bold;
+    font-size: 0.9rem;
+    color: #333;
+    position: relative;
+    transform: rotate(0deg);
+    transition: all 0.3s ease;
+    box-shadow: 3px 3px 0 rgba(0,0,0,0.1);
+}
+
+.bubble:hover {
+    transform: rotate(-3deg) scale(1.1);
+    box-shadow: 5px 5px 0 rgba(0,0,0,0.2);
+}
+
+.bubble-1 {
+    background: #FFE5E5;
+    transform: rotate(-5deg);
+}
+
+.bubble-2 {
+    background: #FFE4B5;
+    transform: rotate(3deg);
+}
+
+.bubble-3 {
+    background: #E0F5FF;
+    transform: rotate(-2deg);
+}
+
+.bubble-4 {
+    background: #FFB6C1;
+    transform: rotate(2deg);
+}
+
+.bubble-5 {
+    background: #B8A9E8;
+    transform: rotate(-3deg);
+}
+
+/* Ending Frame */
+.ending-frame {
+    text-align: center;
+    position: relative;
+    margin-top: 100px;
+    opacity: 0;
+    animation: fadeInUp 2s ease-out forwards;
+    z-index: 10;
+}
+
+.final-sketch-box {
+    background: linear-gradient(135deg, #F0E8FF 0%, #E0F5FF 100%);
+    border: 4px solid #333;
+    border-radius: 20px;
+    padding: 60px 40px;
+    max-width: 900px;
+    margin: 0 auto;
+    position: relative;
+    box-shadow: 
+        8px 8px 0 rgba(0,0,0,0.1),
+        0 0 0 2px white,
+        0 0 0 4px #333;
+    transform: rotate(-0.5deg);
+}
+
+.final-message {
+    font-size: 1.4rem;
+    font-style: italic;
+    color: #333;
+    line-height: 1.8;
+    margin-bottom: 30px;
+    position: relative;
+}
+
+.final-icon {
+    font-size: 4rem;
+    animation: sparkle 2s ease-in-out infinite;
+    transform: rotate(-5deg);
+}
+
+@keyframes sparkle {
+    0%, 100% {
+        opacity: 0.7;
+        transform: rotate(-5deg) scale(1);
+    }
+    50% {
+        opacity: 1;
+        transform: rotate(5deg) scale(1.2);
+    }
+}
+
+/* Animations */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+/* Random rotations for hand-drawn feel */
+.stage-1 .sketch-box {
+    animation: float 4s ease-in-out infinite;
+}
+
+.stage-2 .sketch-box {
+    animation: float 4s ease-in-out infinite 0.5s;
+}
+
+.stage-3 .sketch-box {
+    animation: float 4s ease-in-out infinite 1s;
+}
+
+.stage-4 .sketch-box {
+    animation: float 4s ease-in-out infinite 1.5s;
+}
+
+.stage-5 .sketch-box {
+    animation: float 4s ease-in-out infinite 2s;
+}
+
+/* Mouse sparkles (added via JS) */
+.mouse-spark {
+    position: fixed;
+    width: 4px;
+    height: 4px;
+    background: radial-gradient(circle, #FF69B4, transparent);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9999;
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+    .stage-number-sketch {
+        left: -60px;
+        font-size: 4rem;
+    }
+    
+    .stage-logo {
+        right: -80px;
+        font-size: 3rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .canvas {
+        padding: 40px 20px;
+    }
+    
+    .header-logo {
+        font-size: 4rem;
+    }
+
+    .team-title {
+        font-size: 1.5rem;
+    }
+    
+    .team-members {
+        gap: 20px;
+    }
+    
+    .team-member {
+        min-width: 100px;
+        padding: 15px;
+    }
+    
+    .member-avatar {
+        width: 60px;
+        height: 60px;
+        font-size: 2rem;
+    }
+    
+    .member-name {
+        font-size: 0.9rem;
+    }
+
+    .main-sketch-title {
+        font-size: 2.5rem;
+    }
+
+    .stage-number-sketch {
+        position: relative;
+        left: 0;
+        font-size: 3rem;
+        margin-bottom: -20px;
+    }
+    
+    .stage-logo {
+        position: relative;
+        right: 0;
+        display: inline-block;
+        font-size: 3rem;
+        margin-left: 20px;
+        margin-bottom: 10px;
+    }
+
+    .sketch-box {
+        padding: 30px 20px;
+    }
+
+    .stage-title-sketch {
+        font-size: 1.8rem;
+    }
+
+    .sketch-text {
+        font-size: 1rem;
+    }
+
+    .final-message {
+        font-size: 1.2rem;
+    }
+
+    .keyword-bubbles {
+        gap: 10px;
+    }
+
+    .bubble {
+        padding: 8px 16px;
+        font-size: 0.8rem;
+    }
+
+    .journey-path-container {
+        opacity: 0.3;
+    }
+}
+
+@media (max-width: 480px) {
+    .header-logo {
+        font-size: 3rem;
+    }
+    
+    .team-title {
+        font-size: 1.2rem;
+    }
+    
+    .team-members {
+        gap: 15px;
+    }
+    
+    .team-member {
+        min-width: 80px;
+        padding: 10px;
+    }
+    
+    .member-avatar {
+        width: 50px;
+        height: 50px;
+        font-size: 1.5rem;
+    }
+    
+    .member-name {
+        font-size: 0.8rem;
+    }
+
+    .main-sketch-title {
+        font-size: 2rem;
+    }
+    
+    .stage-logo {
+        font-size: 2.5rem;
+        margin-left: 10px;
+    }
+
+    .stage-title-sketch {
+        font-size: 1.5rem;
+    }
+
+    .sketch-box {
+        padding: 20px 15px;
+        border-width: 3px;
+    }
+
+    .final-sketch-box {
+        padding: 40px 20px;
+    }
+
+    .final-icon {
+        font-size: 3rem;
+    }
+}
+
+/* Fun details */
+.sketch-box::after {
+    content: '✏️';
+    position: absolute;
+    top: -15px;
+    right: -15px;
+    font-size: 2rem;
+    transform: rotate(20deg);
+    filter: drop-shadow(2px 2px 0 rgba(0,0,0,0.1));
+    animation: rotate 3s ease-in-out infinite;
+}
+
+@keyframes rotate {
+    0%, 100% {
+        transform: rotate(20deg);
+    }
+    50% {
+        transform: rotate(-20deg);
+    }
+}
+
+/* Scrollbar Styling */
+::-webkit-scrollbar {
+    width: 12px;
+}
+
+::-webkit-scrollbar-track {
+    background: #FFE4E1;
+}
+
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, #FFB6C1, #87CEEB);
+    border-radius: 6px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(180deg, #FF69B4, #4682B4);
+}
+    </style>
+</head>
+<body>
+    <div class="canvas">
+        <!-- 大标题 -->
+        <div class="header-sketch">
+            <h1 class="main-sketch-title">SYNAPSE<br>Collaboration Journey</h1>
+        </div>
+
+        <!-- 团队成员展示 -->
+        <div class="team-section">
+            <h2 class="team-title">Our Team</h2>
+            <div class="team-members">
+                <div class="team-member">
+                    <div class="member-avatar">👤</div>
+                    <div class="member-name">成员1</div>
+                </div>
+                <div class="team-member">
+                    <div class="member-avatar">👤</div>
+                    <div class="member-name">成员2</div>
+                </div>
+                <div class="team-member">
+                    <div class="member-avatar">👤</div>
+                    <div class="member-name">成员3</div>
+                </div>
+                <div class="team-member">
+                    <div class="member-avatar">👤</div>
+                    <div class="member-name">成员4</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 画布路径容器 -->
+        <div class="journey-path-container">
+            <svg class="journey-path" viewBox="0 0 1200 5000">
+                <!-- 渐变路径定义 -->
+                <defs>
+                    <linearGradient id="pathGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                        <stop offset="0%" style="stop-color:#FFD6E8;stop-opacity:1" />
+                        <stop offset="20%" style="stop-color:#FFE4B5;stop-opacity:1" />
+                        <stop offset="40%" style="stop-color:#FFA5A5;stop-opacity:1" />
+                        <stop offset="60%" style="stop-color:#B8A9E8;stop-opacity:1" />
+                        <stop offset="80%" style="stop-color:#A8E6CF;stop-opacity:1" />
+                        <stop offset="100%" style="stop-color:#87CEEB;stop-opacity:1" />
+                    </linearGradient>
+                    <filter id="glow">
+                        <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+                        <feMerge>
+                            <feMergeNode in="coloredBlur"/>
+                            <feMergeNode in="SourceGraphic"/>
+                        </feMerge>
+                    </filter>
+                </defs>
+                
+                <!-- 主路径线 -->
+                <path class="path-line" d="M 600 100 Q 200 600 600 900 Q 1000 1200 600 1700 Q 200 2200 600 2800 Q 1000 3400 600 4000" 
+                      stroke="url(#pathGradient)" stroke-width="8" fill="none"/>
+                
+                <!-- 路径上的图标标记 -->
+                <circle cx="600" cy="200" r="25" fill="#FF69B4" filter="url(#glow)">
+                    <animate attributeName="r" values="25;30;25" dur="2s" repeatCount="indefinite"/>
+                </circle>
+                <text x="600" y="260" text-anchor="middle" class="path-icon">🔥</text>
+                
+                <circle cx="600" cy="700" r="25" fill="#FF8C00" filter="url(#glow)">
+                    <animate attributeName="r" values="25;30;25" dur="2s" begin="0.5s" repeatCount="indefinite"/>
+                </circle>
+                <text x="600" y="760" text-anchor="middle" class="path-icon">⚙️</text>
+                
+                <circle cx="600" cy="1500" r="25" fill="#FF6B6B" filter="url(#glow)">
+                    <animate attributeName="r" values="25;30;25" dur="2s" begin="1s" repeatCount="indefinite"/>
+                </circle>
+                <text x="600" y="1560" text-anchor="middle" class="path-icon">🎲</text>
+                
+                <circle cx="600" cy="2400" r="25" fill="#9370DB" filter="url(#glow)">
+                    <animate attributeName="r" values="25;30;25" dur="2s" begin="1.5s" repeatCount="indefinite"/>
+                </circle>
+                <text x="600" y="2460" text-anchor="middle" class="path-icon">💞</text>
+                
+                <circle cx="600" cy="3600" r="25" fill="#87CEEB" filter="url(#glow)">
+                    <animate attributeName="r" values="25;30;25" dur="2s" begin="2s" repeatCount="indefinite"/>
+                </circle>
+                <text x="600" y="3660" text-anchor="middle" class="path-icon">🌟</text>
+            </svg>
+        </div>
+
+        <!-- Phase 1: Managing Passion -->
+        <section class="stage stage-1" data-stage="1">
+            <div class="stage-content">
+                <div class="stage-number-sketch">01</div>
+                <div class="stage-title-sketch">Managing Passion</div>
+                
+                <div class="sketch-box warm-1">
+                    <div class="sketch-text">
+                        Our collaboration began not with a lack of passion, but with the complex challenge of managing it.
+                        <br><br>
+                        We learned that shared ambition requires balance, mutual understanding, and coordination.
+                    </div>
+                    
+                    <div class="visual-sketch">
+                        <!-- SVG Spark Balance Illustration -->
+                        <svg viewBox="0 0 200 150" class="sketch-illustration">
+                            <!-- Flame -->
+                            <path d="M 100 100 L 85 70 Q 90 60 100 65 Q 110 60 115 70 Z" 
+                                  fill="#FF6B6B" opacity="0.8"/>
+                            <path d="M 100 95 L 90 75 Q 95 65 100 68 Q 105 65 110 75 Z" 
+                                  fill="#FFD700" opacity="0.9"/>
+                            <!-- Balance scales -->
+                            <ellipse cx="100" cy="110" rx="40" ry="4" fill="#FF8C00" opacity="0.5"/>
+                            <circle cx="100" cy="110" r="3" fill="#333"/>
+                            <line x1="70" y1="110" x2="70" y2="120" stroke="#333" stroke-width="2" stroke-linecap="round"/>
+                            <line x1="130" y1="110" x2="130" y2="120" stroke="#333" stroke-width="2" stroke-linecap="round"/>
+                            <circle cx="70" cy="125" r="8" fill="#FFB6C1" opacity="0.7"/>
+                            <circle cx="130" cy="125" r="8" fill="#B8A9E8" opacity="0.7"/>
+                        </svg>
+                    </div>
+                    
+                    <div class="keyword-bubbles">
+                        <span class="bubble bubble-1">Passion</span>
+                        <span class="bubble bubble-2">Ambition</span>
+                        <span class="bubble bubble-3">Balance</span>
+                        <span class="bubble bubble-4">Understanding</span>
+                        <span class="bubble bubble-5">Coordination</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Phase 2: Friction & Growth -->
+        <section class="stage stage-2" data-stage="2">
+            <div class="stage-content">
+                <div class="stage-number-sketch">02</div>
+                <div class="stage-title-sketch">Friction & Growth</div>
+                
+                <div class="sketch-box warm-2">
+                    <div class="sketch-text">
+                        Our initial friction came directly from perfectionism — we were all trying to "do it all" perfectly, until we reached our limits.
+                        <br><br>
+                        This tension became the catalyst for reflection and realignment.
+                    </div>
+                    
+                    <div class="visual-sketch">
+                        <!-- SVG Gear Sparks Illustration -->
+                        <svg viewBox="0 0 200 150" class="sketch-illustration">
+                            <!-- Central gear -->
+                            <circle cx="100" cy="75" r="25" fill="#FFA5A5" stroke="#FF6B6B" stroke-width="3"/>
+                            <circle cx="100" cy="75" r="8" fill="#FF6B6B"/>
+                            <!-- Gear teeth -->
+                            <rect x="95" y="50" width="10" height="15" fill="#FFA5A5"/>
+                            <rect x="95" y="110" width="10" height="15" fill="#FFA5A5"/>
+                            <rect x="50" y="70" width="15" height="10" fill="#FFA5A5"/>
+                            <rect x="135" y="70" width="15" height="10" fill="#FFA5A5"/>
+                            <!-- Sparks -->
+                            <path d="M 100 50 L 98 40 L 102 40" stroke="#FFD700" stroke-width="2" fill="none"/>
+                            <path d="M 100 100 L 98 110 L 102 110" stroke="#FFD700" stroke-width="2" fill="none"/>
+                            <path d="M 130 75 L 140 73 L 140 77" stroke="#FFD700" stroke-width="2" fill="none"/>
+                            <path d="M 70 75 L 60 73 L 60 77" stroke="#FFD700" stroke-width="2" fill="none"/>
+                            <!-- Reflection icon -->
+                            <circle cx="100" cy="120" r="12" fill="#FFE4B5" stroke="#FF8C00" stroke-width="2"/>
+                            <path d="M 100 115 L 100 108 M 100 125 L 100 132 M 92 120 L 88 120 M 108 120 L 112 120" 
+                                  stroke="#FF8C00" stroke-width="2" stroke-linecap="round"/>
+                        </svg>
+                    </div>
+                    
+                    <div class="keyword-bubbles">
+                        <span class="bubble bubble-1">Perfectionism</span>
+                        <span class="bubble bubble-2">Pressure</span>
+                        <span class="bubble bubble-3">Friction</span>
+                        <span class="bubble bubble-4">Reflection</span>
+                        <span class="bubble bubble-5">Realignment</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Phase 3: Pivot & Gamble -->
+        <section class="stage stage-3" data-stage="3">
+            <div class="stage-content">
+                <div class="stage-number-sketch">03</div>
+                <div class="stage-title-sketch">Pivot & Gamble</div>
+                
+                <div class="sketch-box warm-3">
+                    <div class="sketch-text">
+                        A critical external review invalidated our safe path and forced us to confront that our workflow was misaligned with the ambition of our SYNAPSE concept.
+                        <br><br>
+                        It was not just a pivot, but a conscious gamble to rebuild from uncertainty.
+                    </div>
+                    
+                    <div class="visual-sketch">
+                        <!-- SVG Safety to Uncertainty Illustration -->
+                        <svg viewBox="0 0 200 150" class="sketch-illustration">
+                            <!-- Safe path -->
+                            <rect x="30" y="70" width="60" height="15" rx="5" fill="#FFD6E8" stroke="#FF69B4" stroke-width="2"/>
+                            <text x="60" y="82" text-anchor="middle" font-size="10" fill="#FF69B4">SAFE</text>
+                            <!-- Transition arrow -->
+                            <path d="M 100 77 L 120 77 L 115 72 M 120 77 L 115 82" 
+                                  stroke="#9370DB" stroke-width="3" fill="none" stroke-linecap="round"/>
+                            <!-- Uncertainty clouds -->
+                            <ellipse cx="150" cy="65" rx="15" ry="8" fill="#B8A9E8" opacity="0.6"/>
+                            <ellipse cx="160" cy="75" rx="15" ry="8" fill="#B8A9E8" opacity="0.6"/>
+                            <ellipse cx="145" cy="80" rx="12" ry="8" fill="#B8A9E8" opacity="0.6"/>
+                            <text x="152" y="77" text-anchor="middle" font-size="8" fill="#9370DB">?</text>
+                            <!-- Dice (gamble) -->
+                            <rect x="135" y="105" width="30" height="30" rx="3" fill="#FFE4B5" stroke="#FF8C00" stroke-width="3"/>
+                            <circle cx="145" cy="115" r="2" fill="#FF8C00"/>
+                            <circle cx="155" cy="115" r="2" fill="#FF8C00"/>
+                            <circle cx="145" cy="125" r="2" fill="#FF8C00"/>
+                            <circle cx="155" cy="125" r="2" fill="#FF8C00"/>
+                            <circle cx="150" cy="135" r="2" fill="#FF8C00"/>
+                        </svg>
+                    </div>
+                    
+                    <div class="keyword-bubbles">
+                        <span class="bubble bubble-1">Review</span>
+                        <span class="bubble bubble-2">Misalignment</span>
+                        <span class="bubble bubble-3">Risk-taking</span>
+                        <span class="bubble bubble-4">Courage</span>
+                        <span class="bubble bubble-5">SYNAPSE Vision</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Phase 4: Human Breakthrough -->
+        <section class="stage stage-4" data-stage="4">
+            <div class="stage-content">
+                <div class="stage-number-sketch">04</div>
+                <div class="stage-title-sketch">Human Breakthrough</div>
+                
+                <div class="sketch-box warm-4">
+                    <div class="sketch-text">
+                        The real breakthrough wasn't technical — it was human.
+                        <br><br>
+                        By pausing to reconnect as people and rebuilding psychological safety, we rediscovered trust as the foundation of creativity.
+                    </div>
+                    
+                    <div class="visual-sketch">
+                        <!-- SVG Reconnection Spark Renewal Illustration -->
+                        <svg viewBox="0 0 200 150" class="sketch-illustration">
+                            <!-- Hearts -->
+                            <path d="M 70 80 C 70 70, 60 65, 60 70 C 60 65, 50 70, 50 80 C 50 90, 60 100, 70 110 C 80 100, 90 90, 90 80 C 90 70, 80 65, 80 70 C 80 65, 70 70, 70 80 Z" 
+                                  fill="#FFB6C1" stroke="#FF69B4" stroke-width="2"/>
+                            <path d="M 130 80 C 130 70, 120 65, 120 70 C 120 65, 110 70, 110 80 C 110 90, 120 100, 130 110 C 140 100, 150 90, 150 80 C 150 70, 140 65, 140 70 C 140 65, 130 70, 130 80 Z" 
+                                  fill="#87CEEB" stroke="#4682B4" stroke-width="2"/>
+                            <!-- Connection -->
+                            <line x1="90" y1="85" x2="110" y2="85" stroke="#9370DB" stroke-width="3" stroke-dasharray="3,2"/>
+                            <!-- Sparks -->
+                            <path d="M 100 75 L 98 65 L 102 65" stroke="#FFD700" stroke-width="2"/>
+                            <path d="M 100 95 L 98 105 L 102 105" stroke="#FFD700" stroke-width="2"/>
+                            <path d="M 115 75 L 125 73 L 125 77" stroke="#FFD700" stroke-width="2"/>
+                            <path d="M 85 75 L 75 73 L 75 77" stroke="#FFD700" stroke-width="2"/>
+                        </svg>
+                    </div>
+                    
+                    <div class="keyword-bubbles">
+                        <span class="bubble bubble-1">Connection</span>
+                        <span class="bubble bubble-2">Trust</span>
+                        <span class="bubble bubble-3">Safety</span>
+                        <span class="bubble bubble-4">Humanity</span>
+                        <span class="bubble bubble-5">Creativity</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Phase 5: Trust as Superpower -->
+        <section class="stage stage-5" data-stage="5">
+            <div class="stage-content">
+                <div class="stage-number-sketch">05</div>
+                <div class="stage-title-sketch">Trust as Superpower</div>
+                
+                <div class="sketch-box warm-5">
+                    <div class="sketch-text">
+                        We learned that a team's true superpower isn't its best skill, but the trust that allows members to empower and be empowered by one another.
+                        <br><br>
+                        Every artefact we produced became a tangible result of that trust.
+                    </div>
+                    
+                    <div class="visual-sketch">
+                        <!-- SVG Trust Radiates to Creation Illustration -->
+                        <svg viewBox="0 0 200 150" class="sketch-illustration">
+                            <!-- Central Trust Star -->
+                            <path d="M 100 65 L 108 82 L 126 82 L 112 93 L 118 110 L 100 100 L 82 110 L 88 93 L 74 82 L 92 82 Z" 
+                                  fill="#FFD700" stroke="#FFA500" stroke-width="2">
+                                <animate attributeName="fill-opacity" values="0.7;1;0.7" dur="2s" repeatCount="indefinite"/>
+                            </path>
+                            <!-- Radiating rays -->
+                            <line x1="100" y1="45" x2="100" y2="55" stroke="#87CEEB" stroke-width="3" stroke-linecap="round"/>
+                            <line x1="155" y1="77" x2="150" y2="82" stroke="#87CEEB" stroke-width="2" stroke-linecap="round"/>
+                            <line x1="155" y1="107" x2="150" y2="102" stroke="#87CEEB" stroke-width="2" stroke-linecap="round"/>
+                            <line x1="100" y1="125" x2="100" y2="135" stroke="#87CEEB" stroke-width="3" stroke-linecap="round"/>
+                            <line x1="45" y1="107" x2="50" y2="102" stroke="#87CEEB" stroke-width="2" stroke-linecap="round"/>
+                            <line x1="45" y1="77" x2="50" y2="82" stroke="#87CEEB" stroke-width="2" stroke-linecap="round"/>
+                            <!-- Artefact icons -->
+                            <circle cx="100" cy="30" r="8" fill="#A8E6CF"/>
+                            <circle cx="165" cy="90" r="8" fill="#B8A9E8"/>
+                            <circle cx="165" cy="100" r="8" fill="#FFB6C1"/>
+                            <circle cx="100" cy="145" r="8" fill="#FFE4B5"/>
+                            <circle cx="35" cy="100" r="8" fill="#FFE4B5"/>
+                            <circle cx="35" cy="90" r="8" fill="#B8A9E8"/>
+                        </svg>
+                    </div>
+                    
+                    <div class="keyword-bubbles">
+                        <span class="bubble bubble-1">Trust</span>
+                        <span class="bubble bubble-2">Empowerment</span>
+                        <span class="bubble bubble-3">Collaboration</span>
+                        <span class="bubble bubble-4">Growth</span>
+                        <span class="bubble bubble-5">Outcome</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Ending Frame -->
+        <section class="ending-frame">
+            <div class="final-sketch-box">
+                <div class="final-message">
+                    "Every artefact we produced became a tangible result of that trust."
+                </div>
+                <div class="final-icon">✨</div>
+            </div>
+        </section>
+    </div>
+
+    <script>
+// Sketchnote Website Interactive Effects
+
+document.addEventListener('DOMContentLoaded', function() {
+    
+    // Intersection Observer for stage animations
+    const stages = document.querySelectorAll('.stage');
+    
+    const observerOptions = {
+        root: null,
+        rootMargin: '-150px 0px',
+        threshold: 0.1
+    };
+
+    const observer = new IntersectionObserver(function(entries) {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('active');
+            }
+        });
+    }, observerOptions);
+
+    stages.forEach(stage => {
+        observer.observe(stage);
+    });
+
+    // Mouse sparkle effect
+    const canvas = document.querySelector('.canvas');
+    canvas.addEventListener('mousemove', function(e) {
+        // Create random colored sparkles
+        const colors = ['#FF69B4', '#FFB6C1', '#FFA5A5', '#87CEEB', '#B8A9E8', '#A8E6CF'];
+        const color = colors[Math.floor(Math.random() * colors.length)];
+        
+        const spark = document.createElement('div');
+        spark.className = 'mouse-spark';
+        spark.style.left = e.pageX + 'px';
+        spark.style.top = e.pageY + 'px';
+        spark.style.background = `radial-gradient(circle, ${color}, transparent)`;
+        
+        document.body.appendChild(spark);
+        
+        setTimeout(() => {
+            spark.style.transition = 'all 1s ease-out';
+            spark.style.opacity = '0';
+            spark.style.transform = 'scale(2)';
+            setTimeout(() => spark.remove(), 1000);
+        }, 50);
+    });
+
+    // Add floating animation to bubbles
+    const bubbles = document.querySelectorAll('.bubble');
+    bubbles.forEach((bubble, index) => {
+        bubble.style.animation = `float ${3 + Math.random() * 2}s ease-in-out infinite`;
+        bubble.style.animationDelay = `${index * 0.2}s`;
+    });
+
+    // Add random rotation to text blocks
+    const sketchTexts = document.querySelectorAll('.sketch-text');
+    sketchTexts.forEach(text => {
+        const randomRotation = (Math.random() - 0.5) * 0.5;
+        text.style.transform = `rotate(${randomRotation}deg)`;
+    });
+
+    // Sequential reveal animation for ending
+    window.addEventListener('scroll', function() {
+        const ending = document.querySelector('.ending-frame');
+        const rect = ending.getBoundingClientRect();
+        if (rect.top < window.innerHeight * 0.8) {
+            ending.style.animation = 'fadeInUp 2s ease-out forwards';
+        }
+    });
+
+    // Add draw effect to path
+    const pathLine = document.querySelector('.path-line');
+    if (pathLine) {
+        // Path will animate on load
+        setTimeout(() => {
+            pathLine.style.animation = 'drawPath 8s ease-out forwards';
+        }, 500);
+    }
+
+    // Parallax effect for floating elements
+    window.addEventListener('scroll', function() {
+        const scrollY = window.scrollY;
+        const bubbles = document.querySelectorAll('.bubble');
+        
+        bubbles.forEach((bubble, index) => {
+            const speed = 0.1 + (index % 3) * 0.05;
+            // Store original transform in data attribute
+            if (!bubble.dataset.originalTransform) {
+                bubble.dataset.originalTransform = bubble.style.transform || '';
+            }
+            bubble.style.transform = `${bubble.dataset.originalTransform} translateY(${scrollY * speed}px)`;
+        });
+    });
+
+    // Add sketchy underline effects
+    const stageTitles = document.querySelectorAll('.stage-title-sketch');
+    stageTitles.forEach(title => {
+        title.addEventListener('mouseenter', function() {
+            this.style.textDecoration = 'underline wavy';
+            this.style.textDecorationColor = '#FF69B4';
+        });
+        
+        title.addEventListener('mouseleave', function() {
+            this.style.textDecoration = 'none';
+        });
+    });
+
+    // Random jitter animation for hand-drawn feel
+    setInterval(() => {
+        const boxes = document.querySelectorAll('.sketch-box');
+        boxes.forEach(box => {
+            if (Math.random() > 0.95) {
+                const currentRotate = parseFloat(box.style.transform.replace('rotate(', '').replace('deg)', '') || '0.5');
+                const newRotate = currentRotate + (Math.random() - 0.5) * 0.2;
+                box.style.transform = `rotate(${newRotate}deg)`;
+            }
+        });
+    }, 1000);
+
+    // Add ripple effect on bubble click
+    bubbles.forEach(bubble => {
+        bubble.addEventListener('click', function(e) {
+            const ripple = document.createElement('div');
+            ripple.style.position = 'absolute';
+            ripple.style.borderRadius = '50%';
+            ripple.style.background = 'rgba(255, 182, 193, 0.5)';
+            ripple.style.width = '10px';
+            ripple.style.height = '10px';
+            ripple.style.left = e.offsetX + 'px';
+            ripple.style.top = e.offsetY + 'px';
+            ripple.style.transform = 'translate(-50%, -50%)';
+            ripple.style.animation = 'ripple 0.6s ease-out';
+            
+            this.style.position = 'relative';
+            this.appendChild(ripple);
+            
+            setTimeout(() => ripple.remove(), 600);
+        });
+    });
+
+    // Add CSS for ripple animation
+    const style = document.createElement('style');
+    style.textContent = `
+        @keyframes ripple {
+            to {
+                width: 200px;
+                height: 200px;
+                opacity: 0;
+            }
+        }
+        
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+    `;
+    document.head.appendChild(style);
+
+    // Smooth scroll behavior
+    document.documentElement.style.scrollBehavior = 'smooth';
+
+    // Add entrance animation
+    document.body.style.opacity = '0';
+    setTimeout(() => {
+        document.body.style.transition = 'opacity 1.5s ease-in';
+        document.body.style.opacity = '1';
+    }, 100);
+
+    // Console easter egg
+    console.log('%c🎨 SYNAPSE Sketchnote Journey 🎨', 'font-size: 24px; color: #FF69B4; font-weight: bold;');
+    console.log('%cTrust is the foundation of innovation ✨', 'font-size: 14px; color: #87CEEB;');
+});
+    </script>
+</body>
+</html>
+
